@@ -2,6 +2,7 @@ C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\bin\Debug\Maticsoft.DBUtil
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\bin\Debug\Maticsoft.DBUtility.pdb
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\bin\Debug\MySql.Data.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\bin\Debug\System.Data.SQLite.DLL
-C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\Maticsoft.DBUtility.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\Maticsoft.DBUtility.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csproj.CoreCompileInputs.cache
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csproj.CopyComplete

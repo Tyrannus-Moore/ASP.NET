@@ -1,4 +1,3 @@
-C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Maticsoft.Web.dll.config
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Maticsoft.Web.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Maticsoft.Web.pdb
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\LTP.Accounts.dll
@@ -20,7 +19,6 @@ C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.Controls
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.Controls.CopyRight1.resources
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.Global.resources
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.GenerateResource.Cache
-C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.pdb
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\Web\bin\Maticsoft.Web.dll.config
@@ -48,3 +46,8 @@ C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.Gen
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.dll
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\Web\obj\Debug\Maticsoft.Web.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Web.UI.dll
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Web.UI.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\bin\Maticsoft.Web.dll.config
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web\obj\Debug\Web.csproj.CopyComplete

@@ -42,9 +42,9 @@ namespace Maticsoft.BLL
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
-		public bool Update(Maticsoft.Model.CMS_Column model)
+		public bool Update(Maticsoft.Model.CMS_Column model, bool ChangeParent, int oldParentId)
 		{
-			return dal.Update(model);
+            return dal.Update(model, ChangeParent, oldParentId);
 		}
 
 		/// <summary>
@@ -163,6 +163,19 @@ namespace Maticsoft.BLL
 		//{
 			//return dal.GetList(PageSize,PageIndex,strWhere);
 		//}
+
+        
+
+
+        /// <summary>
+        /// 移动栏目
+        /// </summary>
+        /// <param name="Id">栏目Id</param>
+        /// <param name="IsUp">上移还是下移</param>
+        public void MoveList(int Id, int IsUp)
+        {
+            dal.MoveList(Id,IsUp);
+        }
 
 		#endregion  Method
 	}

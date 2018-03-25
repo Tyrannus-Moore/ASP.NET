@@ -39,25 +39,27 @@ namespace Maticsoft.DAL
 
 
 		/// <summary>
-		/// 增加一条数据
+		/// 增加一条数据 --经修改
 		/// </summary>
 		public int Add(Maticsoft.Model.CMS_Column model)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into CMS_Column(");
-			strSql.Append("Title,ParentId,Code,GotoUrl)");
+			strSql.Append("Title,ParentId,Code,GotoUrl,IsNavigator)");
 			strSql.Append(" values (");
-			strSql.Append("@Title,@ParentId,@Code,@GotoUrl)");
+			strSql.Append("@Title,@ParentId,@Code,@GotoUrl,@IsNavigator)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Title", SqlDbType.VarChar,50),
 					new SqlParameter("@ParentId", SqlDbType.Int,4),
 					new SqlParameter("@Code", SqlDbType.VarChar,50),
-					new SqlParameter("@GotoUrl", SqlDbType.VarChar,50)};
+					new SqlParameter("@GotoUrl", SqlDbType.VarChar,50),
+                    new SqlParameter("@IsNavigator", SqlDbType.Int,4)};
 			parameters[0].Value = model.Title;
 			parameters[1].Value = model.ParentId;
-			parameters[2].Value = model.Code;
-			parameters[3].Value = model.GotoUrl;
+			parameters[2].Value = model.NewCode();
+            parameters[3].Value = model.GotoUrl;
+            parameters[4].Value = model.IsNavigator;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -69,32 +71,46 @@ namespace Maticsoft.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
-		/// 更新一条数据
-		/// </summary>
-		public bool Update(Maticsoft.Model.CMS_Column model)
+        /// <summary>
+        /// 更新一条数据 --经修改
+        /// <param name="ChangeParent">上级栏目是否发生变化</param>
+        /// <param name="oldParentId">修改前的父栏目ID</param>
+        /// </summary>
+        public bool Update(Maticsoft.Model.CMS_Column model, bool ChangeParent, int oldParentId)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("update CMS_Column set ");
 			strSql.Append("Title=@Title,");
 			strSql.Append("ParentId=@ParentId,");
 			strSql.Append("Code=@Code,");
-			strSql.Append("GotoUrl=@GotoUrl");
-			strSql.Append(" where Id=@Id");
+			strSql.Append("GotoUrl=@GotoUrl,");
+            strSql.Append("IsNavigator=@IsNavigator");
+            strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Title", SqlDbType.VarChar,50),
 					new SqlParameter("@ParentId", SqlDbType.Int,4),
 					new SqlParameter("@Code", SqlDbType.VarChar,50),
 					new SqlParameter("@GotoUrl", SqlDbType.VarChar,50),
-					new SqlParameter("@Id", SqlDbType.Int,4)};
+                    new SqlParameter("@IsNavigator", SqlDbType.Int,4),
+                    new SqlParameter("@Id", SqlDbType.Int,4)};
+                    
 			parameters[0].Value = model.Title;
 			parameters[1].Value = model.ParentId;
-			parameters[2].Value = model.Code;
-			parameters[3].Value = model.GotoUrl;
-			parameters[4].Value = model.Id;
+
+            string newCode = model.NewCode();
+            parameters[2].Value = ChangeParent ? newCode : model.Code;
+
+            parameters[3].Value = model.GotoUrl;
+            parameters[4].Value = model.IsNavigator;
+            parameters[5].Value = model.Id;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
+            if (ChangeParent)
+            {
+                UpdateChild(model,newCode);
+            }
+
+            if (rows > 0)
 			{
 				return true;
 			}
@@ -104,13 +120,37 @@ namespace Maticsoft.DAL
 			}
 		}
 
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(int Id)
+        /// <summary>
+        /// 更新子栏目Code
+        /// </summary>
+        private void UpdateChild(Maticsoft.Model.CMS_Column model, string newCode)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update CMS_Column set ");
+            strSql.AppendFormat("Code = '{0}' + RIGHT(Code, LEN(Code) - Len('{1}')) ", newCode, model.Code);
+            strSql.AppendFormat("where LEFT(Code, LEN('{0}')) = '{0}'", model.Code);
+            DbHelperSQL.ExecuteSql(strSql.ToString());
+        }
+
+        /// <summary>
+        /// 根据条件删除一条数据
+        /// </summary>
+        public bool Delete(int Id)
 		{
-			
-			StringBuilder strSql=new StringBuilder();
+            int parentId = GetParentId(Id);
+            string sql = "select top 1 id from CMS_Article where ColumnId=" + Id;
+            
+            //如果该栏目下还有文章则删除失败
+            if (DbHelperSQL.Exists(sql))
+                return false;
+
+            sql = "select top 1 id from CMS_Column where ParentId=" + Id;
+            //如果该栏目下有子栏目则删除失败
+            if (DbHelperSQL.Exists(sql))
+                return false;
+
+
+            StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from CMS_Column ");
 			strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
@@ -151,11 +191,11 @@ namespace Maticsoft.DAL
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public Maticsoft.Model.CMS_Column GetModel(int Id)
+		public Maticsoft.Model.CMS_Column GetModel(int? Id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 Id,Title,ParentId,Code,GotoUrl from CMS_Column ");
+			strSql.Append("select  top 1 Id,Title,ParentId,Code,GotoUrl,IsNavigator from CMS_Column ");
 			strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Id", SqlDbType.Int,4)
@@ -177,7 +217,11 @@ namespace Maticsoft.DAL
 				}
 				model.Code=ds.Tables[0].Rows[0]["Code"].ToString();
 				model.GotoUrl=ds.Tables[0].Rows[0]["GotoUrl"].ToString();
-				return model;
+                if (ds.Tables[0].Rows[0]["IsNavigator"].ToString() != "")
+                {
+                    model.IsNavigator = int.Parse(ds.Tables[0].Rows[0]["IsNavigator"].ToString());
+                }
+                return model;
 			}
 			else
 			{
@@ -191,13 +235,14 @@ namespace Maticsoft.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Id,Title,ParentId,Code,GotoUrl ");
+			strSql.Append("select Id,Title,ParentId,Code,GotoUrl,IsNavigator ");
 			strSql.Append(" FROM CMS_Column ");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
 			}
-			return DbHelperSQL.Query(strSql.ToString());
+            strSql.Append(" order by Code");
+            return DbHelperSQL.Query(strSql.ToString());
 		}
 
 		/// <summary>
@@ -211,7 +256,7 @@ namespace Maticsoft.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" Id,Title,ParentId,Code,GotoUrl ");
+			strSql.Append(" Id,Title,ParentId,Code,GotoUrl,IsNavigator ");
 			strSql.Append(" FROM CMS_Column ");
 			if(strWhere.Trim()!="")
 			{
@@ -221,7 +266,7 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
-		/*
+        /*
 		/// <summary>
 		/// 分页获取数据列表
 		/// </summary>
@@ -246,7 +291,44 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
 		}*/
 
-		#endregion  Method
-	}
+
+        /// <summary>
+        /// 移动栏目
+        /// </summary>
+        /// <param name="Id">栏目Id</param>
+        /// <param name="IsUp">上移还是下移</param>
+        public void MoveList(int Id, int IsUp)
+        {
+            SqlParameter[] pars = new SqlParameter[]{
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IsUp", IsUp)
+            };
+
+            DbHelperSQL.RunProcedure("SetColumnCode", pars);
+        }
+
+
+        #endregion  Method
+
+
+        #region AssistMethod
+        /// <summary>
+        /// 根据ID获得父栏目ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static int GetParentId(int id)
+        {
+            DataTable dt = DbHelperSQL.Query("select ParentId from CMS_Column where Id=" + id).Tables[0];
+            if (dt.Rows.Count != 0)
+            {
+                return int.Parse(dt.Rows[0][0].ToString());
+            }
+            return 0;
+        }
+
+
+        #endregion
+    }
 }
 

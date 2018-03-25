@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Maticsoft.Model;
 using Maticsoft.BLL;
-using Maticsoft.DAL;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using Web.UI;
 
 namespace Maticsoft.Web.Admin
 {
-    public partial class Debug : System.Web.UI.Page
+    public partial class Debug : BaseAdminPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

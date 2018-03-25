@@ -8,7 +8,6 @@ C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\bin\Debug\System.Data.SQLite.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\bin\Debug\Maticsoft.DBUtility.pdb
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\bin\Debug\Maticsoft.Model.pdb
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
-C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\Maticsoft.DAL.dll
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\Maticsoft.DAL.pdb
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\DAL\bin\Debug\Maticsoft.DAL.dll
@@ -24,3 +23,5 @@ C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csprojReso
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\DAL\obj\Debug\Maticsoft.DAL.dll
 C:\Users\61040\Desktop\For Fun\CMSNewsReleaseSystem\DAL\obj\Debug\Maticsoft.DAL.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\DAL\obj\Debug\DAL.csproj.CopyComplete

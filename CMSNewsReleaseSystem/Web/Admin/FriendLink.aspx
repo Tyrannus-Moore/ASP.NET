@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:GridView ID="GVinfo" runat="server" AutoGenerateColumns="False" EnableModelValidation="True" OnRowCommand="GVinfo_RowCommand" DataKeyNames="Id">
+            <asp:GridView ID="GVinfo" runat="server" AutoGenerateColumns="False" EnableModelValidation="True" OnRowCommand="GVinfo_RowCommand" DataKeyNames="Id" ViewState="None">
                 <Columns>
                     <asp:BoundField DataField="Id" HeaderText="ID" />
                     <asp:BoundField DataField="Title" HeaderText="网站标题" />
@@ -38,15 +38,20 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
-            <asp:Panel ID="Panel1" runat="server" Height="140px" Width="236px" BorderColor="Black" BorderWidth="2px">
+            <asp:Panel ID="Panel1" runat="server" Height="195px" Width="237px" BorderColor="Black" BorderWidth="2px">
                 <span>站点管理</span> --<asp:Label ID="lbIns" runat="server" Text="添加"></asp:Label>
                 <br />
                 <br />
                 网站标题:<asp:TextBox ID="tbTitle" runat="server"></asp:TextBox>
                 <br />
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="标题不能为空！" ControlToValidate="tbTitle" ForeColor="Red"></asp:RequiredFieldValidator>
+                <br />
                 序&nbsp;&nbsp; 号:<asp:TextBox ID="tbSort" runat="server"></asp:TextBox>
                 <br />
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="序号不能为空！"  ControlToValidate="tbSort" ForeColor="Red"></asp:RequiredFieldValidator>
+                <br />
                 链&nbsp;&nbsp; 接:<asp:TextBox ID="tbSiteUrl" runat="server"></asp:TextBox>
+                <br />
                 <br />
                 <asp:Button ID="btSubmit" runat="server" Text="确定" OnClick="btSubmit_Click" />
                 <asp:Button ID="btAbandon" runat="server" Text="放弃" Visible="false" OnClick="btAbandon_Click" />

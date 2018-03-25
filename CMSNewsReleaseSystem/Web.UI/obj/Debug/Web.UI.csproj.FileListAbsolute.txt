@@ -1,0 +1,5 @@
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web.UI\bin\Debug\Web.UI.dll
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web.UI\bin\Debug\Web.UI.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web.UI\obj\Debug\Web.UI.dll
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web.UI\obj\Debug\Web.UI.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Web.UI\obj\Debug\Web.UI.csproj.CoreCompileInputs.cache
