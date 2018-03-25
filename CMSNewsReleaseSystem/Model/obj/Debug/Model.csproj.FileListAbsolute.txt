@@ -1,0 +1,5 @@
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Model\bin\Debug\Maticsoft.Model.dll
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Model\bin\Debug\Maticsoft.Model.pdb
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Model\obj\Debug\Maticsoft.Model.dll
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\Model\obj\Debug\Maticsoft.Model.pdb
