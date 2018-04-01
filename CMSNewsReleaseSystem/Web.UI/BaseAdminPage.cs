@@ -9,6 +9,12 @@ namespace Web.UI
     public class BaseAdminPage : Page
     {
         /// <summary>
+        /// 页面大小
+        /// </summary>
+        protected int PageSize = 4;
+
+
+        /// <summary>
         /// 根据code将name包装为带缩进的name
         /// </summary>
         /// <param name="name">原来的标题名字</param>

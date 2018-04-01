@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <div>
             <a href="AddColumn.aspx"><b>新增</b></a>
-            <asp:GridView ID="GVinfo" runat="server" AutoGenerateColumns="False" EnableModelValidation="True" DataKeyNames="Id" OnRowCommand="GVinfo_RowCommand" >
+            <asp:GridView ID="GVinfo" runat="server" AutoGenerateColumns="False" EnableModelValidation="True" DataKeyNames="Id" OnRowCommand="GVinfo_RowCommand" ViewState="None" >
                 <Columns>
                     <asp:BoundField DataField="Id" HeaderText="ID" />
                     <asp:TemplateField HeaderText="栏目名称">
@@ -21,7 +21,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="是否参与导航">
                         <ItemTemplate>
-                            dosomething
+                            <asp:Image ID="Image1" runat="server" ImageUrl='<%# SelectImage(Eval("IsNavigator")) %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="操作" ShowHeader="False">

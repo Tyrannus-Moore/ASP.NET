@@ -252,7 +252,7 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
-		/*
+        /*
 		/// <summary>
 		/// 分页获取数据列表
 		/// </summary>
@@ -277,7 +277,22 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
 		}*/
 
-		#endregion  Method
-	}
+        /// <summary>
+        /// 返回带栏目和专题名称的列表
+        /// </summary>
+        /// <param name="Order">排序字段</param>
+        /// <param name="strWhere">过滤条件</param>
+        /// <param name="PageIndex">第几页</param>
+        /// <param name="PageSize">每页的记录条数</param>
+        /// <param name="TotalRecorder">总记录数</param>
+        /// <returns></returns>
+        public DataSet GetPageListWithColumn(string Order, string strWhere, int PageIndex, int PageSize, ref int TotalRecorder)
+        {
+            return DbHelperSQL.GetPageListCommon("select a.Id,a.Title,onTop,b.title as ZhuantiTitle,a.Author,a.PostDate,a.titleFont,a.titleColor,c.Title as ColumnName from CMS_Article a Left Join CMS_Column c On a.ColumnId = c.Id Left Join CMS_Zhuanti b On a.ZhuantiId=b.id " + strWhere, Order, PageIndex, PageSize, ref TotalRecorder);
+        }
+
+
+        #endregion  Method
+    }
 }
 

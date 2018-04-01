@@ -172,15 +172,30 @@ namespace Maticsoft.BLL
 			return GetList("");
 		}
 
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		//public DataSet GetList(int PageSize,int PageIndex,string strWhere)
-		//{
-			//return dal.GetList(PageSize,PageIndex,strWhere);
-		//}
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        //public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        //{
+        //return dal.GetList(PageSize,PageIndex,strWhere);
+        //}
 
-		#endregion  Method
-	}
+        /// <summary>
+        /// 返回带栏目和专题名称的列表
+        /// </summary>
+        /// <param name="Order">排序字段</param>
+        /// <param name="strWhere">过滤条件</param>
+        /// <param name="PageIndex">第几页</param>
+        /// <param name="PageSize">每页的记录条数</param>
+        /// <param name="TotalRecorder">总记录数</param>
+        /// <returns></returns>
+        public DataSet GetPageListWithColumn(string Order, string strWhere, int PageIndex, int PageSize, ref int TotalRecorder)
+        {
+
+            return dal.GetPageListWithColumn(Order, strWhere, PageIndex, PageSize,ref TotalRecorder);
+        }
+
+        #endregion  Method
+    }
 }
 

@@ -1007,6 +1007,37 @@ namespace Maticsoft.DBUtility
                 false, 0, 0, string.Empty, DataRowVersion.Default, null));
             return command;
         }
+
+
+        /// <summary>
+        /// 多表查询分页
+        /// </summary>
+        /// <param name="SQL"> 查询语句</param>
+        /// <param name="Order">排序字段</param>
+        /// <param name="PageIndex">当前页</param>
+        /// <param name="PageSize">每页大小</param>
+        /// <param name="TotalRecorder">记录总数</param>
+        /// <returns></returns>
+        public static DataSet GetPageListCommon(string SQL, string Order, int PageIndex, int PageSize, ref int TotalRecorder)
+        {
+            SqlParameter[] pars = new SqlParameter[] {
+                new SqlParameter("@SQL", SQL),
+                new SqlParameter("@Order",Order),
+                new SqlParameter("@PageIndex",PageIndex),
+                new SqlParameter("@pageSize", PageSize),
+                new SqlParameter("@TotalRecorder",TotalRecorder)
+            };
+            pars[4].Direction = ParameterDirection.Output;
+
+            DataSet ds = RunProcedure("up_DataPageRowNumber", pars, "ds");
+            if (pars[4].Value != DBNull.Value)
+            {
+                TotalRecorder = (int)pars[4].Value;
+            }
+            return ds;
+        }
+
+
         #endregion
 
     }

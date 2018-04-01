@@ -65,5 +65,20 @@ namespace Maticsoft.Web.Admin
             if (!bCol.Delete(Id)) Alert("含有子栏目或文章，不允许删除！");
             Flush();
         }
+
+        //为是否为超链接选择图片
+        protected string SelectImage(object obj)
+        {
+            if (obj != null)
+            {
+                if ((int)obj == 1) return "Images/tick.ico";
+                else return "Images/cross.ico";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
     }
 }

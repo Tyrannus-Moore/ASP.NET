@@ -6,3 +6,4 @@ C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\Maticsoft.DBUtil
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\Maticsoft.DBUtility.pdb
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csproj.CoreCompileInputs.cache
 C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csproj.CopyComplete
+C:\Users\61040\Desktop\CMSNewsReleaseSystem\DBUtility\obj\Debug\DBUtility.csprojResolveAssemblyReference.cache
