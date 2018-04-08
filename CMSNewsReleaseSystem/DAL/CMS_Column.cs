@@ -245,10 +245,20 @@ namespace Maticsoft.DAL
             return DbHelperSQL.Query(strSql.ToString());
 		}
 
-		/// <summary>
-		/// 获得前几行数据
-		/// </summary>
-		public DataSet GetList(int Top,string strWhere,string filedOrder)
+        /// <summary>
+        /// 自编获取数据列表
+        /// </summary>
+        /// <param name="strSql">数据库字符串</param>
+        /// <returns></returns>
+        public DataTable CustomGetList(string strSql)
+        {
+            return DbHelperSQL.Query(strSql.ToString()).Tables[0];
+        }
+
+        /// <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select ");
@@ -327,6 +337,30 @@ namespace Maticsoft.DAL
             return 0;
         }
 
+        /// <summary>
+        /// 根据栏目ID获得所有包含其子栏目ID的集合 在新闻添加页面里用的
+        /// </summary>
+        /// <param name="ColumnId"></param>
+        /// <returns></returns>
+        public string GetIncludeColumnId(int ColumnId)
+        {
+            StringBuilder strResult = new StringBuilder();
+            if (ColumnId == 0)
+            {
+                strResult.Append("0,");
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                dt = GetList("code like (select code from CMS_Column where Id=" + ColumnId + ")+'%'").Tables[0];
+                foreach (DataRow dr in dt.Rows)
+                {
+                    strResult.Append(dr["Id"] + ",");
+                }
+            }
+            strResult.Append("-1");
+            return strResult.ToString();
+        }
 
         #endregion
     }

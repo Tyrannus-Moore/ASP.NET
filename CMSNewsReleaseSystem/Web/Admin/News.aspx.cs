@@ -10,22 +10,27 @@ namespace Maticsoft.Web.Admin
 {
     public partial class News : BaseAdminPage
     {
-        int NewPageIndex = 0;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!IsPostBack)
             {
                 Flush("");
+                FlushColumn();
+                Session["pageIndex"] = null;
             }
         }
 
-        //更新列表
+        // 更新列表 注意显示优先级 先排onTop desc 再按时间PostDate desc
         public void Flush(string strWhere)
         {
             if(strWhere == null)
             {
                 strWhere = "";
+            }
+            // 添加新闻后返回的页面
+            if (Session["pageIndex"] != null)
+            {
+                AspNetPager1.CurrentPageIndex = Convert.ToInt32(Session["pageIndex"]);
             }
             int ReCount = 0;
             DataSet ds;
@@ -38,33 +43,52 @@ namespace Maticsoft.Web.Admin
             GVinfo.DataBind();
         }
 
-
-        // 删除一条新闻
-        protected void GVinfo_RowCommand(object sender, GridViewCommandEventArgs e)
+        // 更新DDL里面Column的可选项
+        public void FlushColumn()
         {
-            //int theRow = 0;//保存行号
-            //string theCol = "";//保存列位置信息
-            //theRow = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
-            //theCol = e.CommandName.ToString();
-            //Id = Convert.ToInt32(GVinfo.DataKeys[theRow].Value);
-            //Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
-
-            //if (!bCol.Delete(Id)) Alert("含有子栏目或文章，不允许删除！");
-            //Flush();
+            //只能列出满足下列条件的栏目：不能是跳转网址的栏目，也不能是有子栏目的栏目
+            BLL.CMS_Column bcol = new BLL.CMS_Column();
+            DataTable dt2 = bcol.GetList("(Len(GotoUrl)=0 or  GotoUrl is NULL) and id not in (select distinct ParentId from CMS_Column)").Tables[0];
+            foreach (DataRow dr in dt2.Rows)
+            {
+                ListItem li = new ListItem();
+                li.Text = GetColumnName(dr["Title"].ToString(), dr["Code"].ToString());
+                li.Value = dr["Id"].ToString();
+                ddlColumnId.Items.Add(li);
+            }
         }
 
+        // 删除一条新闻 或 将其置顶
+        protected void GVinfo_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            int Id = 0; // 保存ID
+            int theRow = 0; // 保存行号
+            string theCol = ""; // 保存列位置信息
+            theRow = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+            theCol = e.CommandName.ToString();
+            Id = Convert.ToInt32(GVinfo.DataKeys[theRow].Value);
+            BLL.CMS_Article bAtc = new BLL.CMS_Article();
 
+            switch (e.CommandName)
+            {
+                case "MyDel": bAtc.Delete(Id); break; // 删除操作
+
+                case "MyUp": bAtc.doOnTop(Id); break; // 置顶操作
+
+            }
+
+            Flush("");
+
+        }
+
+        // 翻页的时候要用的函数
         protected void AspNetPager1_PageChanged(object sender, EventArgs e)
         {
-            //AspNetPager1.CurrentPageIndex = NewPageIndex;
             Flush("");
         }
 
-        /// <summary>
-        /// 呈现“设为置顶”或者“取消置顶”
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
+
+        // 用来呈现 "设置置顶" 或 "取消置顶"
         protected string onTopText(object o)
         {
             if (o != null)
@@ -85,6 +109,64 @@ namespace Maticsoft.Web.Admin
             }
         }
 
+        //！未完成 执行操作  ----因为删除和移动涉及到的逻辑相当复杂，耐心等待！！！
+        protected void btExecute_Click(object sender, EventArgs e)
+        {
+            string oper = ddlOper.SelectedValue;
+            string ids = Request.Form["ArticleId"] ?? ""; // 若空传null 不空自己 作用: 获取选中的Id,例如3,4
 
+            //if (oper == "del")
+            //{
+            //    //批量删除文章
+            //    DeleteBath(ids);
+            //}
+            //else if (oper == "move")
+            //{
+            //    //判断权限
+            //    DoSetting("moveBatch");
+            //    //批量移动到栏目
+            //    Article.MoveBath(ids, Convert.ToInt16(ddlColumnId.SelectedValue));
+            //    SaveActionLog(0, 4, "批量移动文章");
+            //}
+            //else if (oper == "add")
+            //{
+            //    //批量加入到专题
+            //    Article.AddBath(ids, Convert.ToInt16(ddlZhuantiId.SelectedValue));
+            //}
+
+            Flush("");
+        }
+
+        //应该完成了 搜索操作 
+        protected void btSearch_Click(object sender, EventArgs e)
+        {
+            BLL.CMS_Column bcol = new BLL.CMS_Column();
+            AspNetPager1.CurrentPageIndex = 1;
+            string strWhere = ""; //Sql语句
+            string strEndTime = ""; //结束时间，要拿来加1
+
+            if (ddlKeyType.Value == "PostDate") //选的是时间
+            {
+                if (BLL.Validator.IsStringDate(EntTime1.Value) && BLL.Validator.IsStringDate(EntTime2.Value))
+                {
+                    strEndTime = DateTime.Parse(EntTime2.Value).AddDays(1).ToString();
+                    strWhere = " PostDate between '" + EntTime1.Value + "' and '" + strEndTime + "'";
+                }
+                else
+                {
+                    JavaScript("alert(\"请输入合法格式的日期\");");
+                }
+            }
+            else //选的是标题||作者||栏目||
+            {
+                if (txtKeyWord.Text != String.Empty || txtKeyWord.Text != "")
+                {
+                    strWhere = ddlKeyType.Value == "Column" ? "c.title" : ( "a."+ ddlKeyType.Value);
+                    strWhere += " like '%" + txtKeyWord.Text.Trim() + "%'";
+                }
+            }
+
+            Flush(strWhere);
+        }
     }
 }

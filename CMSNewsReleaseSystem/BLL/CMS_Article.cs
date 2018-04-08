@@ -191,8 +191,26 @@ namespace Maticsoft.BLL
         /// <returns></returns>
         public DataSet GetPageListWithColumn(string Order, string strWhere, int PageIndex, int PageSize, ref int TotalRecorder)
         {
-
             return dal.GetPageListWithColumn(Order, strWhere, PageIndex, PageSize,ref TotalRecorder);
+        }
+
+        /// <summary>
+        /// 处理置顶问题
+        /// </summary>
+        /// <param name="id"></param>
+        public void doOnTop(int id)
+        {
+            dal.doOnTop(id);
+        }
+
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="ids">包含的ID</param>
+        public static void DeleteBath(string ids)
+        {
+
         }
 
         #endregion  Method

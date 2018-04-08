@@ -103,10 +103,21 @@ namespace Maticsoft.BLL
 		{
 			return dal.GetList(strWhere);
 		}
-		/// <summary>
-		/// 获得前几行数据
-		/// </summary>
-		public DataSet GetList(int Top,string strWhere,string filedOrder)
+
+        /// <summary>
+        /// 自编获取数据列表
+        /// </summary>
+        /// <param name="strSql">数据库字符串</param>
+        /// <returns></returns>
+        public DataTable CustomGetList(string strSql)
+        {
+            return dal.CustomGetList(strSql);
+        }
+
+        /// <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
 			return dal.GetList(Top,strWhere,filedOrder);
 		}
@@ -177,7 +188,16 @@ namespace Maticsoft.BLL
             dal.MoveList(Id,IsUp);
         }
 
-		#endregion  Method
-	}
+        /// <summary>
+        /// 根据栏目ID获得所有包含其子栏目ID的集合 在新闻添加页面里用的
+        /// </summary>
+        /// <param name="ColumnId"></param>
+        /// <returns></returns>
+        public string GetIncludeColumnId(int ColumnId)
+        {
+            return dal.GetIncludeColumnId(ColumnId);
+        }
+        #endregion  Method
+    }
 }
 

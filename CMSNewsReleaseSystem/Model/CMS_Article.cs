@@ -18,10 +18,15 @@ namespace Maticsoft.Model
 		private bool? _ispic;
 		private string _picurl;
 		private string _body;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int Id
+        private int? _onTop; //新追加 为了做置顶
+        private int _ReadTimes; //新追加
+        private string _titleColor; //新追加
+        private int _titleFont; //新追加
+        private int _ZhuantiId;//新追加 为了做插入
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Id
 		{
 			set{ _id=value;}
 			get{return _id;}
@@ -82,8 +87,48 @@ namespace Maticsoft.Model
 			set{ _body=value;}
 			get{return _body;}
 		}
-		#endregion Model
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? onTop
+        {
+            set { _onTop = value; }
+            get { return _onTop; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ReadTimes
+        {
+            set { _ReadTimes = value; }
+            get { return _ReadTimes; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string titleColor
+        {
+            set { _titleColor = value; }
+            get { return _titleColor; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int titleFont
+        {
+            set { _titleFont = value; }
+            get { return _titleFont; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ZhuantiId
+        {
+            set { _ZhuantiId = value; }
+            get { return _ZhuantiId; }
+        }
+        #endregion Model
 
-	}
+    }
 }
 

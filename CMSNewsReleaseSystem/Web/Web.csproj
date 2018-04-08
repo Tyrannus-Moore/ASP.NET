@@ -88,6 +88,14 @@
     <Content Include="Admin\AddNews.aspx" />
     <Content Include="Admin\Column.aspx" />
     <Content Include="Admin\Images\arrow2.jpg" />
+    <Content Include="Admin\Images\close.gif" />
+    <Content Include="Admin\Images\cross.ico" />
+    <Content Include="Admin\Images\mnext.gif" />
+    <Content Include="Admin\Images\mprev.gif" />
+    <Content Include="Admin\Images\tick.ico" />
+    <Content Include="Admin\Images\ynext.gif" />
+    <Content Include="Admin\Images\yprev.gif" />
+    <Content Include="Admin\jquery-1.2.6.js" />
     <Content Include="Admin\Left.aspx" />
     <Content Include="Admin\FriendLink.aspx" />
     <Content Include="Admin\Images\arrow1.jpg" />
@@ -118,6 +126,7 @@
     <Content Include="bin\Web.UI.pdb" />
     <Content Include="Controls\checkright.ascx" />
     <Content Include="Controls\copyright.ascx" />
+    <Content Include="css\calendar.css" />
     <Content Include="css\menu.css" />
     <Content Include="css\Style.css" />
     <Content Include="fckeditor\editor\css\behaviors\disablehandles.htc" />
@@ -489,8 +498,12 @@
     <Content Include="Images\top1.gif" />
     <Content Include="fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <Content Include="fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
+    <Content Include="Admin\Images\Thumbs.db" />
     <None Include="bin\Maticsoft.Web.dll.config" />
     <None Include="Scripts\jquery-1.2.6-vsdoc.js" />
+    <Content Include="Scripts\calendar-setup.js" />
+    <Content Include="Scripts\calendar-zh.js" />
+    <Content Include="Scripts\calendar.js" />
     <Content Include="Scripts\jquery-1.2.6.js" />
     <None Include="Scripts\jquery-1.2.6.min-vsdoc.js" />
     <Content Include="Scripts\jquery-1.2.6.min.js" />

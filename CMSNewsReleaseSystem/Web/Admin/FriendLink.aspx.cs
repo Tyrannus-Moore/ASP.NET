@@ -27,7 +27,7 @@ namespace Maticsoft.Web.Admin
         //更新列表
         public void Flush()
         {
-            Maticsoft.BLL.CMS_FriendLink bfl = new Maticsoft.BLL.CMS_FriendLink();
+            BLL.CMS_FriendLink bfl = new BLL.CMS_FriendLink();
             GVinfo.DataSource = bfl.GetList("1=1");//这一行用1=1，因为查询语句要加where
             GVinfo.DataBind();
         }
@@ -36,7 +36,7 @@ namespace Maticsoft.Web.Admin
         protected void btSubmit_Click(object sender, EventArgs e)
         {
             //创建一个Model
-            Maticsoft.Model.CMS_FriendLink mfl = new Maticsoft.Model.CMS_FriendLink();
+            Model.CMS_FriendLink mfl = new Model.CMS_FriendLink();
             if (lbIns.Text == "编辑") mfl.Id = Id;
             mfl.IsPic = false;
             mfl.Title = tbTitle.Text;

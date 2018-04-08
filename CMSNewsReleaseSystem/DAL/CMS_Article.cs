@@ -45,9 +45,9 @@ namespace Maticsoft.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into CMS_Article(");
-			strSql.Append("ColumnId,Title,Author,PostDate,IsPic,PicUrl,Body)");
+			strSql.Append("ColumnId,Title,Author,PostDate,IsPic,PicUrl,Body,onTop,ReadTimes,titleColor,titleFont,ZhuantiId)");
 			strSql.Append(" values (");
-			strSql.Append("@ColumnId,@Title,@Author,@PostDate,@IsPic,@PicUrl,@Body)");
+			strSql.Append("@ColumnId,@Title,@Author,@PostDate,@IsPic,@PicUrl,@Body,@onTop,@ReadTimes,@titleColor,@titleFont,@ZhuantiId)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ColumnId", SqlDbType.Int,4),
@@ -56,7 +56,12 @@ namespace Maticsoft.DAL
 					new SqlParameter("@PostDate", SqlDbType.DateTime),
 					new SqlParameter("@IsPic", SqlDbType.Bit,1),
 					new SqlParameter("@PicUrl", SqlDbType.VarChar,100),
-					new SqlParameter("@Body", SqlDbType.Text)};
+					new SqlParameter("@Body", SqlDbType.Text),
+                    new SqlParameter("@onTop", SqlDbType.Int,4),
+                    new SqlParameter("@ReadTimes", SqlDbType.Int,4),
+                    new SqlParameter("@titleColor", SqlDbType.VarChar,50),
+                    new SqlParameter("@titleFont", SqlDbType.Int,4),
+                    new SqlParameter("@ZhuantiId", SqlDbType.Int,4)};
 			parameters[0].Value = model.ColumnId;
 			parameters[1].Value = model.Title;
 			parameters[2].Value = model.Author;
@@ -64,8 +69,13 @@ namespace Maticsoft.DAL
 			parameters[4].Value = model.IsPic;
 			parameters[5].Value = model.PicUrl;
 			parameters[6].Value = model.Body;
+            parameters[7].Value = model.onTop;
+            parameters[8].Value = model.ReadTimes;
+            parameters[9].Value = model.titleColor;
+            parameters[10].Value = model.titleFont;
+            parameters[11].Value = model.ZhuantiId;
 
-			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
 			{
 				return 0;
@@ -88,8 +98,12 @@ namespace Maticsoft.DAL
 			strSql.Append("PostDate=@PostDate,");
 			strSql.Append("IsPic=@IsPic,");
 			strSql.Append("PicUrl=@PicUrl,");
-			strSql.Append("Body=@Body");
-			strSql.Append(" where Id=@Id");
+			strSql.Append("Body=@Body,");
+            strSql.Append("onTop=@onTop,");
+            strSql.Append("ReadTimes=@ReadTimes,");
+            strSql.Append("titleColor=@titleColor,");
+            strSql.Append("titleFont=@titleFont");
+            strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ColumnId", SqlDbType.Int,4),
 					new SqlParameter("@Title", SqlDbType.VarChar,100),
@@ -98,7 +112,11 @@ namespace Maticsoft.DAL
 					new SqlParameter("@IsPic", SqlDbType.Bit,1),
 					new SqlParameter("@PicUrl", SqlDbType.VarChar,100),
 					new SqlParameter("@Body", SqlDbType.Text),
-					new SqlParameter("@Id", SqlDbType.Int,4)};
+                    new SqlParameter("@onTop", SqlDbType.Int,4),
+                    new SqlParameter("@ReadTimes", SqlDbType.Int,4),
+                    new SqlParameter("@titleColor", SqlDbType.VarChar,50),
+                    new SqlParameter("@titleFont", SqlDbType.Int,4),
+                    new SqlParameter("@Id", SqlDbType.Int,4)};
 			parameters[0].Value = model.ColumnId;
 			parameters[1].Value = model.Title;
 			parameters[2].Value = model.Author;
@@ -106,7 +124,11 @@ namespace Maticsoft.DAL
 			parameters[4].Value = model.IsPic;
 			parameters[5].Value = model.PicUrl;
 			parameters[6].Value = model.Body;
-			parameters[7].Value = model.Id;
+            parameters[7].Value = model.onTop;
+            parameters[8].Value = model.ReadTimes;
+            parameters[9].Value = model.titleColor;
+            parameters[10].Value = model.titleFont;
+            parameters[11].Value = model.Id;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -162,15 +184,66 @@ namespace Maticsoft.DAL
 			}
 		}
 
+        ///// <summary>
+        ///// 批量删除
+        ///// </summary>
+        ///// <param name="ids">包含的ID</param>
+        //public void DeleteBath(string ids)
+        //{
+        //    if (ids == "")
+        //        return;
+        //    string[] currentId = ids.Split(',');
+        //    Maticsoft.Model.CMS_Article mArt = new Maticsoft.Model.CMS_Article();
+        //    mArt = GetModel(int.Parse(currentId[0]));
+        //    int? theColumnId = mArt.ColumnId;
+        //    string thePath = HttpContext.Current.PhysicalApplicationPath;
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.CMS_Article GetModel(int Id)
+        //    //在删除新闻的同时删除对应页面  和 文中的图片      
+        //    foreach (string theId in currentId)
+        //    {
+        //        FileIO.delFile(thePath + @"/Html/Article/Article_" + theId + ".html");
+        //        Article atc = Article.GetModel(int.Parse(theId));
+        //        deletePics(atc.Body);
+        //    }
+
+        //    //在数据库中删除记录
+        //    StringBuilder strSql = new StringBuilder();
+        //    strSql.Append("delete jc_Article ");
+        //    strSql.AppendFormat(" where Id in ({0},0)", ids);
+        //    DbHelperSQL.ExecuteSql(strSql.ToString());
+
+
+
+        //    //某个栏目下的文章数量从2变动到1，1变动到0，需要更新该栏目的父栏目对应的“新闻栏目列表页” 
+        //    int rowsCount = 0;
+        //    object objrowsCount = DbHelperSQL.GetSingle("select count(*) from jc_Article where ColumnId=" + theColumnId);
+        //    if (objrowsCount != null)
+        //    {
+        //        rowsCount = int.Parse(objrowsCount.ToString());
+        //    }
+        //    if (rowsCount == 1 || objrowsCount == null || rowsCount == 0)
+        //    {
+        //        CreateHtml chColumnList = new CreateHtml("List", thePath);
+        //        chColumnList.CreateColumnList(Column.GetParentId(theColumnId));
+        //    }
+
+        //    //某个栏目下的文章数量从2变动到1的时候，要删除一个对应的“新闻列表页”
+        //    if (rowsCount == 1)
+        //    {
+        //        FileIO.delFile(thePath + @"/Html/ArticleList/ArticleList_" + theColumnId.ToString() + ".html");
+        //    }
+        //}
+
+
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.CMS_Article GetModel(int Id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 Id,ColumnId,Title,Author,PostDate,IsPic,PicUrl,Body from CMS_Article ");
+			strSql.Append("select  top 1 Id,ColumnId,Title,Author,PostDate,IsPic,PicUrl,Body,onTop,ReadTimes,titleColor,titleFont from CMS_Article ");
 			strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@Id", SqlDbType.Int,4)
@@ -208,7 +281,15 @@ namespace Maticsoft.DAL
 				}
 				model.PicUrl=ds.Tables[0].Rows[0]["PicUrl"].ToString();
 				model.Body=ds.Tables[0].Rows[0]["Body"].ToString();
-				return model;
+                if (ds.Tables[0].Rows[0]["ColumnId"].ToString() != "")
+                {
+                    model.onTop = int.Parse(ds.Tables[0].Rows[0]["onTop"].ToString());
+                }
+                model.ReadTimes = int.Parse(ds.Tables[0].Rows[0]["ReadTimes"].ToString());
+
+                model.titleColor = ds.Tables[0].Rows[0]["titleColor"].ToString();
+                model.titleFont = int.Parse(ds.Tables[0].Rows[0]["titleFont"].ToString());
+                return model;
 			}
 			else
 			{
@@ -217,16 +298,16 @@ namespace Maticsoft.DAL
 		}
 
 		/// <summary>
-		/// 获得数据列表
+		/// 获得数据列表 --经过改造
 		/// </summary>
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Id,ColumnId,Title,Author,PostDate,IsPic,PicUrl,Body ");
-			strSql.Append(" FROM CMS_Article ");
+			strSql.Append("select a.Id,b.Title,a.Title,Author,PostDate,IsPic,PicUrl,Body,onTop,ReadTimes,titleColor,titleFont ");
+			strSql.Append(" FROM CMS_Article  a,dbo.CMS_Column b");
 			if(strWhere.Trim()!="")
 			{
-				strSql.Append(" where "+strWhere);
+				strSql.Append(" where a.ColumnId = b.Id and " + strWhere);
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
@@ -288,9 +369,37 @@ namespace Maticsoft.DAL
         /// <returns></returns>
         public DataSet GetPageListWithColumn(string Order, string strWhere, int PageIndex, int PageSize, ref int TotalRecorder)
         {
-            return DbHelperSQL.GetPageListCommon("select a.Id,a.Title,onTop,b.title as ZhuantiTitle,a.Author,a.PostDate,a.titleFont,a.titleColor,c.Title as ColumnName from CMS_Article a Left Join CMS_Column c On a.ColumnId = c.Id Left Join CMS_Zhuanti b On a.ZhuantiId=b.id " + strWhere, Order, PageIndex, PageSize, ref TotalRecorder);
+            if(strWhere=="") return DbHelperSQL.GetPageListCommon("select a.Id,a.Title,onTop,b.title as ZhuantiTitle,a.Author,a.PostDate,a.titleFont,a.titleColor,c.Title as ColumnName from CMS_Article a Left Join CMS_Column c On a.ColumnId = c.Id Left Join CMS_Zhuanti b On a.ZhuantiId=b.id " + strWhere, Order, PageIndex, PageSize, ref TotalRecorder);
+            else return DbHelperSQL.GetPageListCommon("select a.Id,a.Title,onTop,b.title as ZhuantiTitle,a.Author,a.PostDate,a.titleFont,a.titleColor,c.Title as ColumnName from CMS_Article a Left Join CMS_Column c On a.ColumnId = c.Id Left Join CMS_Zhuanti b On a.ZhuantiId=b.id where " + strWhere, Order, PageIndex, PageSize, ref TotalRecorder);
         }
 
+        /// <summary>
+        /// 处理置顶问题
+        /// </summary>
+        /// <param name="id"></param>
+        public void doOnTop(int id)
+        {
+            Maticsoft.Model.CMS_Article atc = new Maticsoft.Model.CMS_Article();
+            atc = GetModel(id);
+            if (atc.onTop != 0) // 如果有置顶值换为0，即取消置顶
+            {
+                atc.onTop = 0;
+            }
+            else
+            {
+                atc.onTop = GetMaxTop(); // 若无置顶值，取最大置顶值加1后置顶
+            }
+            Update(atc);
+        }
+
+        /// <summary>
+        /// 获得最大的onTop+1
+        /// </summary>
+        /// <returns></returns>
+        public static int GetMaxTop()
+        {
+            return DbHelperSQL.GetMaxID("onTop", "CMS_Article");
+        }
 
         #endregion  Method
     }
