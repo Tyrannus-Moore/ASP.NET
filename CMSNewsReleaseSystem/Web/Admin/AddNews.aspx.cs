@@ -48,6 +48,12 @@ namespace Maticsoft.Web.Admin
                 ddlTitSty.Items.FindByValue(mArt.titleFont.ToString()).Selected = true;
             }
             tbAuthor.Text = mArt.Author;
+            if(mArt.IsPic == true)
+            {
+                //显示图片
+                Image1.Visible = true;
+                Image1.ImageUrl = "~\\userfiles\\" + mArt.PicUrl.Substring(mArt.PicUrl.LastIndexOf("\\") + 1); ;
+            }
             //tbPicUrl.Text = mArt.PicUrl;
             tbTitle.Text = mArt.Title;
             FCKeditor1.Value = mArt.Body;
@@ -89,31 +95,45 @@ namespace Maticsoft.Web.Admin
             Model.CMS_Article mArt = new Model.CMS_Article();
             BLL.CMS_Article bArt = new BLL.CMS_Article();
             mArt = CurrentId > 0 ? bArt.GetModel(CurrentId) : mArt;
+            mArt.Title = tbTitle.Text.Trim();
+            mArt.titleColor = ddlTitCor.Items[ddlTitCor.SelectedIndex].Value;
+            mArt.titleFont = Convert.ToInt32(ddlTitSty.Items[ddlTitSty.SelectedIndex].Value);
+
             mArt.Author = tbAuthor.Text.Trim();
             mArt.Body = FCKeditor1.Value;
             mArt.ColumnId = Validator.StrToId(ddlCol.SelectedValue);
             mArt.ZhuantiId = 0;
-            mArt.IsPic = false;//Do something
-            mArt.PicUrl = "";//Do something
-            mArt.onTop = 0;
+
+            if (FileUpload1.HasFile)
+            {
+                string filePath = Server.MapPath("~\\userfiles\\");
+                string fileName = FileUpload1.PostedFile.FileName;
+                fileName = fileName.Substring(fileName.LastIndexOf("\\") + 1);
+                FileUpload1.SaveAs(filePath + fileName);
+                mArt.IsPic = true;
+                mArt.PicUrl = filePath + fileName;
+            }
+            else
+            {
+                if(CurrentId == 0) // 防止覆盖修改情况下被覆盖
+                {
+                    mArt.IsPic = false;
+                    mArt.PicUrl = "";
+                }
+            }
 
             if (CurrentId == 0)
             {
                 //判断权限
                 mArt.PostDate = DateTime.Now;
-            }
-            mArt.Title = tbTitle.Text.Trim();
-            mArt.titleColor = ddlTitCor.Items[ddlTitCor.SelectedIndex].Value;
-            mArt.titleFont = Convert.ToInt32(ddlTitSty.Items[ddlTitSty.SelectedIndex].Value);
-
-            if (CurrentId > 0)
-            {
-                bArt.Update(mArt);
+                mArt.onTop = 0;
+                bArt.Add(mArt);
             }
             else
             {
-                bArt.Add(mArt);
+                bArt.Update(mArt);
             }
+
             Response.Redirect("News.aspx");
         }
     }

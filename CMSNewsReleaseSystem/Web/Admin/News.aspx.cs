@@ -78,13 +78,12 @@ namespace Maticsoft.Web.Admin
             }
 
             Flush("");
-
         }
 
         // 翻页的时候要用的函数
         protected void AspNetPager1_PageChanged(object sender, EventArgs e)
         {
-            Flush("");
+            Flush(strWhere);
         }
 
 
@@ -109,40 +108,40 @@ namespace Maticsoft.Web.Admin
             }
         }
 
-        //！未完成 执行操作  ----因为删除和移动涉及到的逻辑相当复杂，耐心等待！！！
+        //应该完成了 执行操作
         protected void btExecute_Click(object sender, EventArgs e)
         {
+            BLL.CMS_Article bArt = new BLL.CMS_Article();
             string oper = ddlOper.SelectedValue;
-            string ids = Request.Form["ArticleId"] ?? ""; // 若空传null 不空自己 作用: 获取选中的Id,例如3,4
+            string idlist = Request.Form["ArticleId"] ?? ""; // 若空传null 不空自己 作用: 获取选中的Id,例如3,4 相当于教程中的ids
 
-            //if (oper == "del")
-            //{
-            //    //批量删除文章
-            //    DeleteBath(ids);
-            //}
-            //else if (oper == "move")
-            //{
-            //    //判断权限
-            //    DoSetting("moveBatch");
-            //    //批量移动到栏目
-            //    Article.MoveBath(ids, Convert.ToInt16(ddlColumnId.SelectedValue));
-            //    SaveActionLog(0, 4, "批量移动文章");
-            //}
-            //else if (oper == "add")
-            //{
-            //    //批量加入到专题
-            //    Article.AddBath(ids, Convert.ToInt16(ddlZhuantiId.SelectedValue));
-            //}
+            if (oper == "del")
+            {
+                //判断权限
+                //DO SOMETHING
+
+                //批量删除文章
+                bArt.DeleteList(idlist);
+            }
+            else if (oper == "move")
+            {
+                //判断权限
+                //DO SOMETHING
+
+                //批量移动到栏目
+                bArt.MoveList(idlist, Convert.ToInt16(ddlColumnId.SelectedValue));
+            }
 
             Flush("");
         }
 
+        static string strWhere = ""; //Sql语句 为什么要放外面因为AspNetPager1_PageChanged事件也要用到
         //应该完成了 搜索操作 
         protected void btSearch_Click(object sender, EventArgs e)
         {
             BLL.CMS_Column bcol = new BLL.CMS_Column();
             AspNetPager1.CurrentPageIndex = 1;
-            string strWhere = ""; //Sql语句
+            
             string strEndTime = ""; //结束时间，要拿来加1
 
             if (ddlKeyType.Value == "PostDate") //选的是时间
@@ -166,7 +165,21 @@ namespace Maticsoft.Web.Admin
                 }
             }
 
+            btShowAll.Visible = true;
+
             Flush(strWhere);
+        }
+
+        /// <summary>
+        /// 用来设置恢复按条件筛选后 显示全部数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btShowAll_Click(object sender, EventArgs e)
+        {
+            strWhere = "";
+            btShowAll.Visible = false;
+            Flush("");
         }
     }
 }

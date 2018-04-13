@@ -8,6 +8,11 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
+    <style type="text/css">
+        .auto-style1 {
+            height: 74px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -48,6 +53,15 @@
                 <td>所属栏目</td>
                 <td>
                     <asp:DropDownList ID="ddlCol" runat="server"></asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style1">标题图片</td>
+                <td class="auto-style1">
+                    <asp:FileUpload ID="FileUpload1" runat="server" />
+                </td>
+                <td class="auto-style1">
+                    <asp:Image ID="Image1" runat="server" Visible="false" Height="50px" Width="50px" />
                 </td>
             </tr>
         </table>

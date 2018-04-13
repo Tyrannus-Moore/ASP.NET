@@ -83,6 +83,7 @@
           
                         <asp:TextBox ID="txtKeyWord" runat="server" Width="200px"></asp:TextBox>
                         <asp:Button ID="btSearch" runat="server"  Text="搜 索" onclick="btSearch_Click" />
+                        <asp:Button ID="btShowAll" runat="server" OnClick="btShowAll_Click" Text="显示全部" Visible="False" />
                     </td>
                 </tr>
             </table>

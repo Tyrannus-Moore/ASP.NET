@@ -3,6 +3,9 @@ using System.Data;
 using System.Text;
 using System.Data.SqlClient;
 using Maticsoft.DBUtility;//Please add references
+using System.IO;
+using System.Web;
+
 namespace Maticsoft.DAL
 {
 	/// <summary>
@@ -12,12 +15,13 @@ namespace Maticsoft.DAL
 	{
 		public CMS_Article()
 		{}
-		#region  Method
+        #region  Method
+        static string thePath = HttpContext.Current.Request.PhysicalApplicationPath;
 
-		/// <summary>
-		/// 得到最大ID
-		/// </summary>
-		public int GetMaxId()
+        /// <summary>
+        /// 得到最大ID
+        /// </summary>
+        public int GetMaxId()
 		{
 		return DbHelperSQL.GetMaxID("Id", "CMS_Article"); 
 		}
@@ -142,12 +146,17 @@ namespace Maticsoft.DAL
 		}
 
 		/// <summary>
-		/// 删除一条数据
+		/// 删除一条数据 --经过改造
 		/// </summary>
 		public bool Delete(int Id)
 		{
-			
-			StringBuilder strSql=new StringBuilder();
+            Model.CMS_Article ac = GetModel(Id);
+
+            //先删除对应图片
+            DeletePics(ac.Body); //Body里的
+            if (ac.IsPic == true) DeletePic(ac.PicUrl.Substring(ac.PicUrl.LastIndexOf("\\")));
+
+            StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from CMS_Article ");
 			strSql.Append(" where Id=@Id");
 			SqlParameter[] parameters = {
@@ -155,7 +164,16 @@ namespace Maticsoft.DAL
 };
 			parameters[0].Value = Id;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            //在删除一条新闻的同时删除对应页面           
+            //File.Delete(thePath + @"/Html/Article/Article_" + Id + ".html");
+
+            //某个栏目下的文章数量从2变动到1，1变动到0，需要更新该栏目的父栏目对应的“新闻栏目列表页” 
+            //DO SOMETHING 
+
+            //某个栏目下的文章数量从2变动到1的时候，要删除一个对应的“新闻列表页”
+            //DO SOMETHING
+
+            int rows =DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
 			{
 				return true;
@@ -165,76 +183,120 @@ namespace Maticsoft.DAL
 				return false;
 			}
 		}
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool DeleteList(string Idlist )
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from CMS_Article ");
-			strSql.Append(" where Id in ("+Idlist + ")  ");
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 
-        ///// <summary>
-        ///// 批量删除
-        ///// </summary>
-        ///// <param name="ids">包含的ID</param>
-        //public void DeleteBath(string ids)
-        //{
-        //    if (ids == "")
-        //        return;
-        //    string[] currentId = ids.Split(',');
-        //    Maticsoft.Model.CMS_Article mArt = new Maticsoft.Model.CMS_Article();
-        //    mArt = GetModel(int.Parse(currentId[0]));
-        //    int? theColumnId = mArt.ColumnId;
-        //    string thePath = HttpContext.Current.PhysicalApplicationPath;
+        /// <summary>
+        /// 批量删除 --经过改造
+        /// </summary>
+        /// <param name="Idlist">包含的ID</param>
+        public bool DeleteList(string Idlist)
+        {
+            if (Idlist == "") return true;
+            string[] currentId = Idlist.Split(',');
+            Model.CMS_Article mArt = new Model.CMS_Article();
+            mArt = GetModel(int.Parse(currentId[0]));
+            int? theColumnId = mArt.ColumnId;
 
-        //    //在删除新闻的同时删除对应页面  和 文中的图片      
-        //    foreach (string theId in currentId)
-        //    {
-        //        FileIO.delFile(thePath + @"/Html/Article/Article_" + theId + ".html");
-        //        Article atc = Article.GetModel(int.Parse(theId));
-        //        deletePics(atc.Body);
-        //    }
+            //在删除新闻的同时删除对应页面  和 文中的图片      
+            foreach (string theId in currentId)
+            {
+                //File.Delete(thePath + @"/Html/Article/Article_" + theId + ".html"); // 删除对应页面
 
-        //    //在数据库中删除记录
-        //    StringBuilder strSql = new StringBuilder();
-        //    strSql.Append("delete jc_Article ");
-        //    strSql.AppendFormat(" where Id in ({0},0)", ids);
-        //    DbHelperSQL.ExecuteSql(strSql.ToString());
+                Model.CMS_Article atc = GetModel(int.Parse(theId));
+                if (atc.IsPic == true) DeletePic(atc.PicUrl); // 删除标题图片
+                DeletePics(atc.Body); // 删除内容图片
+            }
 
+            //在数据库中删除记录
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete CMS_Article ");
+            strSql.AppendFormat(" where Id in ({0},0)", Idlist);
 
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //某个栏目下的文章数量从2变动到1，1变动到0，需要更新该栏目的父栏目对应的“新闻栏目列表页” 
+            //DO SOMETHING
 
-        //    //某个栏目下的文章数量从2变动到1，1变动到0，需要更新该栏目的父栏目对应的“新闻栏目列表页” 
-        //    int rowsCount = 0;
-        //    object objrowsCount = DbHelperSQL.GetSingle("select count(*) from jc_Article where ColumnId=" + theColumnId);
-        //    if (objrowsCount != null)
-        //    {
-        //        rowsCount = int.Parse(objrowsCount.ToString());
-        //    }
-        //    if (rowsCount == 1 || objrowsCount == null || rowsCount == 0)
-        //    {
-        //        CreateHtml chColumnList = new CreateHtml("List", thePath);
-        //        chColumnList.CreateColumnList(Column.GetParentId(theColumnId));
-        //    }
+            //某个栏目下的文章数量从2变动到1的时候，要删除一个对应的“新闻列表页”
+            //DO SOMETHING
+        }
 
-        //    //某个栏目下的文章数量从2变动到1的时候，要删除一个对应的“新闻列表页”
-        //    if (rowsCount == 1)
-        //    {
-        //        FileIO.delFile(thePath + @"/Html/ArticleList/ArticleList_" + theColumnId.ToString() + ".html");
-        //    }
-        //}
+        /// <summary>
+        /// 删除文章内容中的图片文件
+        /// </summary>
+        /// <param name="picStr">例如“KK<img width="310" height="233" alt="" src="/userfiles/201105182222064687.jpg" /><img width="310" height="147" alt="" src="/userfiles/201105182222275000.jpg" />”
+        /// </param>
+        public static void DeletePics(string picStr)
+        {
+            while (picStr.IndexOf("<img") >= 0)
+            {
+                int pos = picStr.IndexOf("src=\"/userfiles/");
 
+                string tempName = picStr.Substring(pos + 16);
 
+                int picLength = tempName.IndexOf("\"");
+                string picName = picStr.Substring(pos + 16, picLength);
+                DeletePic(picName);
+                picStr = picStr.Substring(pos + 16 + picLength);
+            }
+        }
+
+        /// <summary>
+        /// 删除指定文件名的图片
+        /// </summary>
+        /// <param name="picName"></param>
+        public static void DeletePic(string picName)
+        {
+            File.Delete(thePath + @"/userfiles/" + picName);
+        }
+
+        /// <summary>
+        /// 批量移动到栏目
+        /// </summary>
+        /// <param name="Idlist">包含的ID</param>
+        /// <param name="columnId">栏目ID</param>
+        public bool MoveList(string Idlist, int columnId)
+        {
+            if (Idlist == "") return true;
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update CMS_Article set columnId='" + columnId + "'");
+            strSql.AppendFormat(" where Id in ({0},0)", Idlist);
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            ////重新对其旧栏目的新闻列表进行有可能的删除
+            //string[] currentId = Idlist.Split(',');
+            //Model.CMS_Article ac = GetModel(int.Parse(currentId[0]));
+            //int theColumnId = (int)ac.ColumnId;
+            //CreateHtml ch = new CreateHtml("ArticleList", thePath);
+            //ch.CreateArticleList(theColumnId);
+
+            ////重新对其新栏目的新闻列表进行有可能的生成
+            //ch.CreateArticleList(columnId);
+
+            ////重新对其旧栏目的父栏目对应栏目列表页进行有可能的更新
+            //int oldFatherId = Column.GetParentId(theColumnId);
+            //ch.CreateColumnList(oldFatherId);
+
+            ////重新对其新栏目的父栏目对应栏目列表页进行有可能的更新
+            //int newFatherId = Column.GetParentId(theColumnId);
+            //ch.CreateColumnList(newFatherId);
+
+        }
 
         /// <summary>
         /// 得到一个对象实体

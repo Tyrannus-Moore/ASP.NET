@@ -63,6 +63,11 @@ namespace Maticsoft.BLL
 			return dal.DeleteList(Idlist );
 		}
 
+        public bool MoveList(string Idlist,int columnId)
+        {
+            return dal.MoveList(Idlist, columnId);
+        }
+
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
