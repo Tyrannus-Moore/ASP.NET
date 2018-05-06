@@ -63,10 +63,19 @@ namespace Maticsoft.BLL
 			return dal.DeleteList(Idlist );
 		}
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.CMS_AdminUser GetModel(int Id)
+        /// <summary>
+        /// 根据用户名得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.CMS_AdminUser GetModel(string Name)
+        {
+            return dal.GetModel(Name);
+        }
+
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.CMS_AdminUser GetModel(int Id)
 		{
 			
 			return dal.GetModel(Id);

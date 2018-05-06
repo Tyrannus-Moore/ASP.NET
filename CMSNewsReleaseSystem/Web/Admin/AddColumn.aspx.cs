@@ -21,6 +21,7 @@ namespace Maticsoft.Web.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            DoAdminSetting(302);
             if(!IsPostBack)
             {
                 Flush();
@@ -32,8 +33,8 @@ namespace Maticsoft.Web.Admin
         /// </summary>
         protected void Flush()
         {
-            Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
-            Maticsoft.Model.CMS_Column col = new Maticsoft.Model.CMS_Column();
+            CMS_Column bCol = new CMS_Column();
+            Model.CMS_Column col = new Model.CMS_Column();
             DataTable dt;
             if (CurrentId > 0)
             {
@@ -51,12 +52,16 @@ namespace Maticsoft.Web.Admin
                     tbLink.Text = col.GotoUrl;
                 }
                 //只列出满足以下条件的栏目作为父栏目：不能是自己的下级栏目，不能是跳转到某网站的栏目，不能是已包含文章的栏目
-                dt = bCol.GetList("Code not like '" + col.Code + "%' and (Len(GotoUrl)=0 or  GotoUrl is NULL) and Id not in (select distinct ColumnId from CMS_Article)").Tables[0];
+                dt = bCol.GetList("Code not like '" + 
+                    col.Code + "%' and (Len(GotoUrl)=0 or  GotoUrl is NULL) " +
+                    "and Id not in (select distinct ColumnId from CMS_Article)").Tables[0];
             }
             else
             {
                 //只列出满足以下条件的栏目作为父栏目：不能是跳转到某网站的栏目，不能是已包含文章的栏目
-                dt = bCol.GetList("(Len(GotoUrl)=0 or  GotoUrl is NULL) and Id not in (select distinct ColumnId from CMS_Article)").Tables[0];
+                dt = bCol.GetList("(Len(GotoUrl)=0 or " +
+                    "GotoUrl is NULL) and Id not in " +
+                    "(select distinct ColumnId from CMS_Article)").Tables[0];
             }
             ddlParentId.Items.Add(new ListItem("作为一级", "0"));
             foreach (DataRow dr in dt.Rows)
@@ -75,8 +80,8 @@ namespace Maticsoft.Web.Admin
 
         protected void btSave_Click(object sender, EventArgs e)
         {
-            Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
-            Maticsoft.Model.CMS_Column col = new Maticsoft.Model.CMS_Column();
+            CMS_Column bCol = new CMS_Column();
+            Model.CMS_Column col = new Model.CMS_Column();
             if (CurrentId > 0) col = bCol.GetModel(CurrentId);
             col.Title = tbTitle.Text;
             col.IsNavigator = cbIsNavi.Checked ? 1 : 0;

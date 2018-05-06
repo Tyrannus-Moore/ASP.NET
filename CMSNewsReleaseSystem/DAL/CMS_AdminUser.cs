@@ -142,11 +142,46 @@ namespace Maticsoft.DAL
 			}
 		}
 
+        /// <summary>
+        /// 根据用户名得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.CMS_AdminUser GetModel(string Name)
+        {
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.CMS_AdminUser GetModel(int Id)
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 Id,Name,Pwd,RoleId from CMS_AdminUser ");
+            strSql.Append(" where Name=@Name");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@Name", SqlDbType.VarChar,50)
+};
+            parameters[0].Value = Name;
+
+            Maticsoft.Model.CMS_AdminUser model = new Maticsoft.Model.CMS_AdminUser();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["Id"].ToString() != "")
+                {
+                    model.Id = int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
+                }
+                model.Name = ds.Tables[0].Rows[0]["Name"].ToString();
+                model.Pwd = ds.Tables[0].Rows[0]["Pwd"].ToString();
+                if (ds.Tables[0].Rows[0]["RoleId"].ToString() != "")
+                {
+                    model.RoleId = int.Parse(ds.Tables[0].Rows[0]["RoleId"].ToString());
+                }
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Maticsoft.Model.CMS_AdminUser GetModel(int Id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
@@ -185,8 +220,8 @@ namespace Maticsoft.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select Id,Name,Pwd,RoleId ");
-			strSql.Append(" FROM CMS_AdminUser ");
+			strSql.Append("select a.Id,a.Name,Pwd,b.Name as RoleName ");
+			strSql.Append(" FROM CMS_AdminUser as a join dbo.CMS_AdminRole as b on a.RoleId = b.Id");
 			if(strWhere.Trim()!="")
 			{
 				strSql.Append(" where "+strWhere);
@@ -215,7 +250,22 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
-		/*
+        /// <summary>
+        /// 根据过滤条件获得带角色名称的数据列表
+        /// </summary>
+        public static DataSet GetRoleNameList(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select CMS_AdminUser.Id as Id,CMS_AdminUser.Name as userName,[Pass],[RoleId],CMS_AdminRole.Name as roleName");
+            strSql.Append(" FROM CMS_AdminUser inner join CMS_AdminRole on CMS_AdminUser.RoleId=CMS_AdminRole.Id");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /*
 		/// <summary>
 		/// 分页获取数据列表
 		/// </summary>
@@ -240,7 +290,7 @@ namespace Maticsoft.DAL
 			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
 		}*/
 
-		#endregion  Method
-	}
+        #endregion  Method
+    }
 }
 

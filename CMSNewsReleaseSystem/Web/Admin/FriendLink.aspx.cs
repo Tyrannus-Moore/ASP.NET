@@ -16,6 +16,7 @@ namespace Maticsoft.Web.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DoAdminSetting(104);
             if (!IsPostBack)
             {
                 Flush();
@@ -28,7 +29,7 @@ namespace Maticsoft.Web.Admin
         public void Flush()
         {
             BLL.CMS_FriendLink bfl = new BLL.CMS_FriendLink();
-            GVinfo.DataSource = bfl.GetList("1=1");//这一行用1=1，因为查询语句要加where
+            GVinfo.DataSource = bfl.GetList("");
             GVinfo.DataBind();
         }
 

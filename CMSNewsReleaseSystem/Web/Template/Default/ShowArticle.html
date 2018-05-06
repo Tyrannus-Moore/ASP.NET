@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{$HeadArticleTitle$}</title>
+    <meta name="generator" content="EditPlus" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <script src="../../Scripts/jquery-1.2.6.js"></script>
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $.get("../../Admin/executeReadTimes.ashx", { ArticleId: "{$ArticleId$}" },
+                //发送Get请求
+                function (data) {
+                    $("#readTimes").html(data);
+                }
+            );
+        })
+    </script>
+</head>
+<body>
+    <table border="1" width="700" align="center">
+        <tr>
+            <th>{$ArticleTitle$}</th>
+        </tr>
+        <tr>
+            <td>栏目: {$ColumnName$} 作者: {$ArticleAuthor$} 日期: {$ArticlePostDate$},阅读次数: {$ArticleReadTimes$}</td>
+        </tr>
+        <tr>
+            <td><img src="{$ArticlePicUrl$}"/></td>
+        </tr>
+        <tr>
+            <td>{$ArticleBody$}</td>
+        </tr>
+    </table>
+</body>
+</html>

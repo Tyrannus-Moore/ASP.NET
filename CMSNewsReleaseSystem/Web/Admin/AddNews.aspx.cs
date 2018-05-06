@@ -20,6 +20,7 @@ namespace Maticsoft.Web.Admin
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            DoAdminSetting(303);
             if (!IsPostBack)
             {
                 if(CurrentId > 0)
@@ -33,8 +34,8 @@ namespace Maticsoft.Web.Admin
 
         protected void ShowEditor()
         {
-            BLL.CMS_Article bArt = new BLL.CMS_Article();
-            BLL.CMS_Column bCol = new BLL.CMS_Column();
+            CMS_Article bArt = new CMS_Article();
+            CMS_Column bCol = new CMS_Column();
             Model.CMS_Article mArt = new Model.CMS_Article();
             if (CurrentId > 0)//如果是编辑
             {
@@ -42,12 +43,13 @@ namespace Maticsoft.Web.Admin
 
                 if(mArt.ColumnId != 0)
                 {
-                    //判断权限
+                    DoSetting(Convert.ToInt32(mArt.ColumnId), "修改");
                 }
                 ddlTitCor.Items.FindByValue(mArt.titleColor).Selected = true;
                 ddlTitSty.Items.FindByValue(mArt.titleFont.ToString()).Selected = true;
             }
-            tbAuthor.Text = mArt.Author;
+            //tbAuthor.Text = mArt.Author;
+            tbAuthor.Text = CurrentAdmin.Name;
             if(mArt.IsPic == true)
             {
                 //显示图片
@@ -103,6 +105,7 @@ namespace Maticsoft.Web.Admin
             mArt.Body = FCKeditor1.Value;
             mArt.ColumnId = Validator.StrToId(ddlCol.SelectedValue);
             mArt.ZhuantiId = 0;
+            DoSetting(Convert.ToInt32(mArt.ColumnId), "新增");
 
             if (FileUpload1.HasFile)
             {
@@ -124,13 +127,14 @@ namespace Maticsoft.Web.Admin
 
             if (CurrentId == 0)
             {
-                //判断权限
+                DoSetting(Convert.ToInt32(mArt.ColumnId) , "新增");
                 mArt.PostDate = DateTime.Now;
                 mArt.onTop = 0;
                 bArt.Add(mArt);
             }
             else
             {
+                DoSetting(Convert.ToInt32(mArt.ColumnId), "修改");
                 bArt.Update(mArt);
             }
 

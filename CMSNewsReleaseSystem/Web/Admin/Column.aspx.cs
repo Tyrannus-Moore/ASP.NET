@@ -36,9 +36,10 @@ namespace Maticsoft.Web.Admin
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            DoAdminSetting(302);
             if (!IsPostBack)
             {
-                Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
+                CMS_Column bCol = new CMS_Column();
                 if (Action == "move") bCol.MoveList(CurrentId, IsUp); // 判断页面上是否有上/下移请求
                 Flush();
             }
@@ -47,7 +48,7 @@ namespace Maticsoft.Web.Admin
         //更新列表
         public void Flush()
         {
-            Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
+            CMS_Column bCol = new CMS_Column();
             GVinfo.DataSource = bCol.GetList("");
             GVinfo.DataBind();
         }
@@ -60,8 +61,9 @@ namespace Maticsoft.Web.Admin
             theRow = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
             theCol = e.CommandName.ToString();
             Id = Convert.ToInt32(GVinfo.DataKeys[theRow].Value);
-            Maticsoft.BLL.CMS_Column bCol = new Maticsoft.BLL.CMS_Column();
+            CMS_Column bCol = new CMS_Column();
 
+            
             if (!bCol.Delete(Id)) Alert("含有子栏目或文章，不允许删除！");
             Flush();
         }

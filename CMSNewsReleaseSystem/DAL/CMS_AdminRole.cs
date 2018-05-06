@@ -52,7 +52,7 @@ namespace Maticsoft.DAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@Name", SqlDbType.VarChar,50),
 					new SqlParameter("@AdminSetting", SqlDbType.VarChar,100),
-					new SqlParameter("@Setting", SqlDbType.VarChar,100)};
+					new SqlParameter("@Setting", SqlDbType.Text)};
 			parameters[0].Value = model.Name;
 			parameters[1].Value = model.AdminSetting;
 			parameters[2].Value = model.Setting;
@@ -81,7 +81,7 @@ namespace Maticsoft.DAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@Name", SqlDbType.VarChar,50),
 					new SqlParameter("@AdminSetting", SqlDbType.VarChar,100),
-					new SqlParameter("@Setting", SqlDbType.VarChar,100),
+					new SqlParameter("@Setting", SqlDbType.Text),
 					new SqlParameter("@Id", SqlDbType.Int,4)};
 			parameters[0].Value = model.Name;
 			parameters[1].Value = model.AdminSetting;
@@ -126,7 +126,7 @@ namespace Maticsoft.DAL
 		/// <summary>
 		/// 删除一条数据
 		/// </summary>
-		public bool DeleteList(string Idlist )
+		public bool DeleteList(string Idlist)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("delete from CMS_AdminRole ");
@@ -143,10 +143,10 @@ namespace Maticsoft.DAL
 		}
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Maticsoft.Model.CMS_AdminRole GetModel(int Id)
+        /// <summary>
+        /// 得到一个对象实体 --经过修改AdminSetting，Setting加了，，方便取前后
+        /// </summary> 
+        public Maticsoft.Model.CMS_AdminRole GetModel(int Id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
@@ -166,9 +166,9 @@ namespace Maticsoft.DAL
 					model.Id=int.Parse(ds.Tables[0].Rows[0]["Id"].ToString());
 				}
 				model.Name=ds.Tables[0].Rows[0]["Name"].ToString();
-				model.AdminSetting=ds.Tables[0].Rows[0]["AdminSetting"].ToString();
-				model.Setting=ds.Tables[0].Rows[0]["Setting"].ToString();
-				return model;
+                model.AdminSetting = "," + ds.Tables[0].Rows[0]["AdminSetting"].ToString() + ",";
+                model.Setting = "," + ds.Tables[0].Rows[0]["Setting"].ToString() + ",";
+                return model;
 			}
 			else
 			{

@@ -127,6 +127,13 @@ namespace Maticsoft.Model
             set { _ZhuantiId = value; }
             get { return _ZhuantiId; }
         }
+
+        public string SearchColumnName(int Id) //生成静态页的时候用 CreateHtml
+        {
+            CMS_Column col = new CMS_Column();
+            col = CMS_Column.GetModel(Id);
+            return col.Title;
+        }
         #endregion Model
 
     }

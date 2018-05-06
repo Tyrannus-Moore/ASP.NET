@@ -35,7 +35,7 @@
         </td>
         <td class="td1">
             <asp:LinkButton ID="LinkButton1" runat="server" Style="color: Black" Font-Bold="True" 
-                PostBackUrl="~/Index.aspx" >返回网站首页</asp:LinkButton>
+                PostBackUrl="Index.aspx" >返回网站首页</asp:LinkButton>
         </td>
     </tr>
 </table>

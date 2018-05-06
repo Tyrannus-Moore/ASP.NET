@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUtility", "DBUtility\DBUtility.csproj", "{0988C62E-247F-471F-A183-DB509C7A3839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.UI", "Web.UI\Web.UI.csproj", "{E003BCCE-8699-494C-BA5C-E7086E42B980}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -74,16 +72,6 @@ Global
 		{0988C62E-247F-471F-A183-DB509C7A3839}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0988C62E-247F-471F-A183-DB509C7A3839}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0988C62E-247F-471F-A183-DB509C7A3839}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Release|.NET.ActiveCfg = Release|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E003BCCE-8699-494C-BA5C-E7086E42B980}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

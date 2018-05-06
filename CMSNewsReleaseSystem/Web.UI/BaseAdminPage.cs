@@ -1,17 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.UI;
-
+using System.Web.UI.HtmlControls;
+using Maticsoft.Model;
 
 namespace Web.UI
 {
     public class BaseAdminPage : Page
     {
         /// <summary>
+        /// 系统配置信息
+        /// </summary>
+        protected CMS_Config SystemConfig;
+
+        /// <summary>
+        /// 当前管理员
+        /// </summary>
+        protected CMS_AdminUser CurrentAdmin;
+
+        /// <summary>
         /// 页面大小
         /// </summary>
         protected int PageSize = 4;
+
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+
+            SystemConfig = new CMS_Config();
+
+            CurrentAdmin = CMS_AdminUser.CurrentAdmin;
+
+            //判断是否登录了
+            if (CurrentAdmin == null)
+            {
+                Response.Redirect("Login.aspx?t='exit'");
+                //Javascript("top.location='Login.aspx'");
+            }
+
+            //动态加入CSS文件
+            HtmlLink link = new HtmlLink();
+            link.Attributes.Add("href", "../Css/ManageCss/STYLE.CSS");
+            link.Attributes.Add("type", "text/css");
+            link.Attributes.Add("rel", "Stylesheet");
+            this.Page.Header.Controls.Add(link);
+
+            //动态加入JS文件
+            ClientScript.RegisterClientScriptInclude("jquery", "../Scripts/jquery-1.2.6.min.js");
+            ClientScript.RegisterClientScriptInclude("jquery.validate", "../Scripts/jquery.validate.js");
+        }
 
 
         /// <summary>
@@ -49,5 +85,5 @@ namespace Web.UI
         }
     }
 
-    public class Kk { }
+    public class Kk { }//感谢李老师
 }

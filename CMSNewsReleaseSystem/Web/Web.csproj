@@ -86,6 +86,8 @@
   <ItemGroup>
     <Content Include="Admin\AddColumn.aspx" />
     <Content Include="Admin\AddNews.aspx" />
+    <Content Include="Admin\AddRole.aspx" />
+    <Content Include="Admin\AdminUser.aspx" />
     <Content Include="Admin\Column.aspx" />
     <Content Include="Admin\Images\arrow2.jpg" />
     <Content Include="Admin\Images\close.gif" />
@@ -101,9 +103,12 @@
     <Content Include="Admin\Images\arrow1.jpg" />
     <Content Include="Admin\bottom.ascx" />
     <Content Include="Admin\Index.aspx" />
+    <Content Include="Admin\Login.aspx" />
     <Content Include="Admin\News.aspx" />
     <Content Include="Admin\Right.aspx" />
+    <Content Include="Admin\Role.aspx" />
     <Content Include="Admin\top.ascx" />
+    <Content Include="Admin\ValidatorCode.aspx" />
     <Content Include="bin\AspNetPager.dll" />
     <Content Include="bin\FredCK.FCKeditorV2.dll" />
     <Content Include="bin\LTP.Accounts.dll" />
@@ -129,6 +134,8 @@
     <Content Include="css\calendar.css" />
     <Content Include="css\menu.css" />
     <Content Include="css\Style.css" />
+    <Content Include="Admin\NotFinished.aspx" />
+    <Content Include="Error\WithoutRight.aspx" />
     <Content Include="fckeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="fckeditor\editor\css\behaviors\showtableborders.htc" />
     <Content Include="fckeditor\editor\css\fck_editorarea.css" />
@@ -495,6 +502,8 @@
     <Content Include="Global.asax" />
     <Content Include="Images\b4_bg.gif" />
     <Content Include="Images\logo0.gif" />
+    <Content Include="Images\no-right.jpg" />
+    <Content Include="Images\not-finished.jpg" />
     <Content Include="Images\top1.gif" />
     <Content Include="fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <Content Include="fckeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
@@ -509,6 +518,7 @@
     <Content Include="Scripts\jquery-1.2.6.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\menu.js" />
+    <Content Include="Template\Default\ShowArticle.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -527,6 +537,20 @@
     </Compile>
     <Compile Include="Admin\AddNews.aspx.designer.cs">
       <DependentUpon>AddNews.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AddRole.aspx.cs">
+      <DependentUpon>AddRole.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AddRole.aspx.designer.cs">
+      <DependentUpon>AddRole.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminUser.aspx.cs">
+      <DependentUpon>AdminUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminUser.aspx.designer.cs">
+      <DependentUpon>AdminUser.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Column.aspx.cs">
       <DependentUpon>Column.aspx</DependentUpon>
@@ -563,6 +587,13 @@
     <Compile Include="Admin\Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\News.aspx.cs">
       <DependentUpon>News.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -577,12 +608,29 @@
     <Compile Include="Admin\Right.aspx.designer.cs">
       <DependentUpon>Right.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Role.aspx.cs">
+      <DependentUpon>Role.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Role.aspx.designer.cs">
+      <DependentUpon>Role.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\top.ascx.cs">
       <DependentUpon>top.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\top.ascx.designer.cs">
       <DependentUpon>top.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\ValidatorCode.aspx.cs">
+      <DependentUpon>ValidatorCode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\ValidatorCode.aspx.designer.cs">
+      <DependentUpon>ValidatorCode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaseAdminPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Controls\CheckRight.ascx.cs">
       <DependentUpon>checkright.ascx</DependentUpon>
@@ -604,6 +652,20 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\NotFinished.aspx.cs">
+      <DependentUpon>NotFinished.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\NotFinished.aspx.designer.cs">
+      <DependentUpon>NotFinished.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Error\WithoutRight.aspx.cs">
+      <DependentUpon>WithoutRight.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error\WithoutRight.aspx.designer.cs">
+      <DependentUpon>WithoutRight.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -656,6 +718,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\" />
+    <Folder Include="html\" />
     <Folder Include="userfiles\" />
   </ItemGroup>
   <ItemGroup>

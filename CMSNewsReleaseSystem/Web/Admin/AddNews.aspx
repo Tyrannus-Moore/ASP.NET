@@ -46,7 +46,7 @@
             <tr>
                 <td>作者</td>
                 <td>
-                    <asp:TextBox ID="tbAuthor" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="tbAuthor" runat="server" BackColor="#CCCCCC" ReadOnly="True"></asp:TextBox>
                 </td>
             </tr>
             <tr>

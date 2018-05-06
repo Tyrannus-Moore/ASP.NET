@@ -12,6 +12,7 @@ namespace Maticsoft.Web.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DoAdminSetting(303);
             if(!IsPostBack)
             {
                 Flush("");
@@ -68,16 +69,28 @@ namespace Maticsoft.Web.Admin
             theCol = e.CommandName.ToString();
             Id = Convert.ToInt32(GVinfo.DataKeys[theRow].Value);
             BLL.CMS_Article bAtc = new BLL.CMS_Article();
+            Model.CMS_Article art = new Model.CMS_Article();
+            art = bAtc.GetModel(Id);
 
             switch (e.CommandName)
             {
-                case "MyDel": bAtc.Delete(Id); break; // 删除操作
+                case "MyDel":
+                    {
+                        DoSetting(Convert.ToInt32(art.ColumnId), "删除");
+                        bAtc.Delete(Id);
+                        break;
+                    } // 删除操作
 
-                case "MyUp": bAtc.doOnTop(Id); break; // 置顶操作
+                case "MyUp":
+                    {
+                        DoSetting(Convert.ToInt32(art.ColumnId), "修改");
+                        bAtc.doOnTop(Id);
+                        break;
+                    }// 置顶操作
 
             }
 
-            Flush("");
+            Flush(strWhere);
         }
 
         // 翻页的时候要用的函数
@@ -85,7 +98,6 @@ namespace Maticsoft.Web.Admin
         {
             Flush(strWhere);
         }
-
 
         // 用来呈现 "设置置顶" 或 "取消置顶"
         protected string onTopText(object o)
@@ -118,7 +130,7 @@ namespace Maticsoft.Web.Admin
             if (oper == "del")
             {
                 //判断权限
-                //DO SOMETHING
+                DoSetting("批量删除");
 
                 //批量删除文章
                 bArt.DeleteList(idlist);
@@ -126,16 +138,18 @@ namespace Maticsoft.Web.Admin
             else if (oper == "move")
             {
                 //判断权限
-                //DO SOMETHING
+                DoSetting("批量移动");
+
 
                 //批量移动到栏目
                 bArt.MoveList(idlist, Convert.ToInt16(ddlColumnId.SelectedValue));
             }
 
-            Flush("");
+            Flush(strWhere);
         }
 
         static string strWhere = ""; //Sql语句 为什么要放外面因为AspNetPager1_PageChanged事件也要用到
+
         //应该完成了 搜索操作 
         protected void btSearch_Click(object sender, EventArgs e)
         {

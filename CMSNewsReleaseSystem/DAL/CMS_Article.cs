@@ -79,8 +79,37 @@ namespace Maticsoft.DAL
             parameters[10].Value = model.titleFont;
             parameters[11].Value = model.ZhuantiId;
 
+
+
+
+            //某个栏目下的文章数量从0变动到1，1变动到2，需要更新该栏目的父栏目对应的“新闻栏目列表页”
+            //int rowsCount = 0;
+            //object objrowsCount = DbHelperSQL.GetSingle("select count(*) from CMS_Article where ColumnId=" + ColumnId);
+            //if (objrowsCount != null)
+            //{
+            //    rowsCount = int.Parse(objrowsCount.ToString());
+            //}
+            //if (rowsCount == 1 || rowsCount == 2)
+            //{
+            //    CreateHtml chColumnList = new CreateHtml("List", thePath);
+            //    chColumnList.CreateColumnList(Column.GetParentId(ColumnId));
+            //}
+
+            //某个栏目下的文章数量从1变动到2的时候，要增加一个对应的“新闻列表页”
+            //if (rowsCount == 2)
+            //{
+            //    CreateHtml chArticleList = new CreateHtml("List", thePath);
+            //    chArticleList.CreateArticleList(ColumnId);
+            //}
+
+
             object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
-			if (obj == null)
+
+            //每次添加一条新闻的同时生成对应页面
+            CreateHtml ch = new CreateHtml("ShowArticle", HttpContext.Current.Server.MapPath("/"));
+            ch.CreateShowArticle(int.Parse(obj.ToString()));
+
+            if (obj == null)
 			{
 				return 0;
 			}
@@ -164,8 +193,9 @@ namespace Maticsoft.DAL
 };
 			parameters[0].Value = Id;
 
+            string a = thePath + @"html\ArticleArticle_" + Id + ".html";
             //在删除一条新闻的同时删除对应页面           
-            //File.Delete(thePath + @"/Html/Article/Article_" + Id + ".html");
+            File.Delete(thePath + @"html\ArticleArticle_" + Id + ".html");
 
             //某个栏目下的文章数量从2变动到1，1变动到0，需要更新该栏目的父栏目对应的“新闻栏目列表页” 
             //DO SOMETHING 
@@ -185,7 +215,7 @@ namespace Maticsoft.DAL
 		}
 
         /// <summary>
-        /// 批量删除 --经过改造
+        /// 批量删除
         /// </summary>
         /// <param name="Idlist">包含的ID</param>
         public bool DeleteList(string Idlist)
@@ -199,7 +229,7 @@ namespace Maticsoft.DAL
             //在删除新闻的同时删除对应页面  和 文中的图片      
             foreach (string theId in currentId)
             {
-                //File.Delete(thePath + @"/Html/Article/Article_" + theId + ".html"); // 删除对应页面
+                File.Delete(thePath + @"html\ArticleArticle_" + theId + ".html"); // 删除对应页面
 
                 Model.CMS_Article atc = GetModel(int.Parse(theId));
                 if (atc.IsPic == true) DeletePic(atc.PicUrl); // 删除标题图片
@@ -277,24 +307,6 @@ namespace Maticsoft.DAL
             {
                 return false;
             }
-
-            ////重新对其旧栏目的新闻列表进行有可能的删除
-            //string[] currentId = Idlist.Split(',');
-            //Model.CMS_Article ac = GetModel(int.Parse(currentId[0]));
-            //int theColumnId = (int)ac.ColumnId;
-            //CreateHtml ch = new CreateHtml("ArticleList", thePath);
-            //ch.CreateArticleList(theColumnId);
-
-            ////重新对其新栏目的新闻列表进行有可能的生成
-            //ch.CreateArticleList(columnId);
-
-            ////重新对其旧栏目的父栏目对应栏目列表页进行有可能的更新
-            //int oldFatherId = Column.GetParentId(theColumnId);
-            //ch.CreateColumnList(oldFatherId);
-
-            ////重新对其新栏目的父栏目对应栏目列表页进行有可能的更新
-            //int newFatherId = Column.GetParentId(theColumnId);
-            //ch.CreateColumnList(newFatherId);
 
         }
 
@@ -438,7 +450,7 @@ namespace Maticsoft.DAL
         /// <summary>
         /// 处理置顶问题
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">欲被置顶新闻Id</param>
         public void doOnTop(int id)
         {
             Maticsoft.Model.CMS_Article atc = new Maticsoft.Model.CMS_Article();

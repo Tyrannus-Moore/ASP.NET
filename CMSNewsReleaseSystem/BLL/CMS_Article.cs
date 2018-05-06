@@ -208,16 +208,6 @@ namespace Maticsoft.BLL
             dal.doOnTop(id);
         }
 
-
-        /// <summary>
-        /// 批量删除
-        /// </summary>
-        /// <param name="ids">包含的ID</param>
-        public static void DeleteBath(string ids)
-        {
-
-        }
-
         #endregion  Method
     }
 }
