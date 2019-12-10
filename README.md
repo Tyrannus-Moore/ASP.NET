@@ -1,6 +1,6 @@
 # JCU-CS-CMS
 A CMS(Content Management System) for Department of Computer Science of Jincheng university.
-## Fuctions
+## Functions
 ### 1. Login & Registration  
    ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Logins.png)  
  **PS: Registration is invalid in the real website for the security concerns.**
