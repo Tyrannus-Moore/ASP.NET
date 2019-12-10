@@ -27,6 +27,6 @@ A CMS(Content Management System) for Department of Computer Science of Jincheng 
    ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Columns.png)  
   * Picture and video management.
   * Generate static pages for the articles.(So that users will have a faster speed to access the articles.)
-## Department website
+## Department Website
 ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Website.png) 
 ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Website-Article.png) 
