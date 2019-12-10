@@ -3,29 +3,27 @@ A CMS(Content Management System) for Department of Computer Science of Jincheng 
 ## Fuctions
 ### 1. Login & Registration  
    ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Logins.png)  
+ **PS: Registration is invalid in the real website for the security concerns.**
 
 ### 2. Authorization  
    * Displaying the authorizations current administrator has.  
    ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Authorization.png)  
 
-### 3. Daily(Bills checking)  
-  * check bills via month  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Daily-Month.gif)   
-  * check bills via quarter   
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Daily-Season.gif)  
-  * check bills via year  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Daily-Year.gif)   
-  * check bills via time period  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Daily-Period.gif)   
-  * display annual statement  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Daily-Anual-Report.gif)  
+### 3. System Management  
+  * Blogrols Management.  
+   ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Blogrols.png)   
+
   
-### 4. Budget  
-  * set monthly budget  
-  * give warning once over budget  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Budget.gif) 
+### 4. Security Management  
+  * Create a new role or define the authorizations a role can have.
+   ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Roles.png)   
+  * CRUD an Administrator.
+   ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Users.png)   
   
-### 5. Analysis  
-  * generate user comsumption analysis and provide  advices.  
-  * offer the link to download users record.  
-  ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Analysis.gif)   
+### 5. Content Management  
+  * CRUD an Article, set the priority of an article.  
+   ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Articles.png)  
+  * CRUD an Column, set the the inclusion relation of the column.
+   ![image](https://github.com/Tyrannus-Moore/JCU-CS-CMS/blob/master/Images/Columns.png)  
+  * Picture and vedio management.
+  * Generate static pages for the articles.(So that users will have a faster speed to access the articles.)
